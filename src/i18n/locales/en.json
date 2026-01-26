@@ -1,0 +1,131 @@
+{
+  "common": {
+    "home": "Home",
+    "events": "Events",
+    "blog": "News",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "register": "Sign up",
+    "logout": "Logout",
+    "profile": "Profile",
+    "search": "Search",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "advertisement": "Advertisement"
+  },
+  "hero": {
+    "title": "Discover the best automotive events",
+    "subtitle": "Gatherings, shows, races and passionate meetups near you",
+    "cta": "Explore events",
+    "ctaSecondary": "Create an event"
+  },
+  "events": {
+    "title": "Upcoming Events",
+    "subtitle": "Don't miss any automotive gathering",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "featured": "Featured",
+    "allEvents": "All events",
+    "noEvents": "No events found",
+    "location": "Location",
+    "date": "Date",
+    "participants": "participants",
+    "organizer": "Organizer",
+    "register": "Register",
+    "registered": "Registered",
+    "createEvent": "Create event",
+    "categories": {
+      "all": "All",
+      "meeting": "Meeting",
+      "race": "Race",
+      "salon": "Show",
+      "rally": "Rally",
+      "auction": "Auction"
+    }
+  },
+  "blog": {
+    "title": "Automotive News",
+    "subtitle": "Stay informed with the latest automotive world news",
+    "latestNews": "Latest news",
+    "readMore": "Read more",
+    "publishedOn": "Published on",
+    "by": "by",
+    "categories": {
+      "all": "All",
+      "news": "News",
+      "reviews": "Reviews",
+      "technology": "Technology",
+      "motorsport": "Motorsport"
+    }
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "registerTitle": "Create an account",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginButton": "Sign in",
+    "registerButton": "Sign up",
+    "orContinueWith": "Or continue with"
+  },
+  "profile": {
+    "title": "My Profile",
+    "myEvents": "My events",
+    "myVehicles": "My vehicles",
+    "settings": "Settings",
+    "addVehicle": "Add a vehicle",
+    "noVehicles": "No registered vehicles",
+    "noEvents": "No events",
+    "vehicle": {
+      "brand": "Brand",
+      "model": "Model",
+      "year": "Year",
+      "type": "Type"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "overview": "Overview",
+    "myEvents": "My events",
+    "manageEvents": "Manage events",
+    "manageUsers": "Manage users",
+    "manageBlog": "Manage blog",
+    "manageAds": "Manage ads",
+    "stats": {
+      "totalEvents": "Total events",
+      "upcomingEvents": "Upcoming events",
+      "totalUsers": "Users",
+      "totalViews": "Views this month"
+    }
+  },
+  "ads": {
+    "title": "Ad Management",
+    "createAd": "Create ad",
+    "activeAds": "Active ads",
+    "pendingAds": "Pending",
+    "analytics": "Analytics",
+    "impressions": "Impressions",
+    "clicks": "Clicks",
+    "ctr": "Click rate"
+  },
+  "footer": {
+    "about": "About",
+    "aboutText": "AutoMeet is the leading platform to discover and organize automotive events in France.",
+    "links": "Useful links",
+    "contact": "Contact",
+    "legal": "Legal notice",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "copyright": "© 2024 AutoMeet. All rights reserved."
+  }
+}

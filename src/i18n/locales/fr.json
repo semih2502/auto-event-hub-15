@@ -1,0 +1,131 @@
+{
+  "common": {
+    "home": "Accueil",
+    "events": "Événements",
+    "blog": "Actualités",
+    "dashboard": "Tableau de bord",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "search": "Rechercher",
+    "loading": "Chargement...",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "viewAll": "Voir tout",
+    "learnMore": "En savoir plus",
+    "advertisement": "Publicité"
+  },
+  "hero": {
+    "title": "Découvrez les meilleurs événements automobiles",
+    "subtitle": "Rassemblements, salons, courses et rencontres passionnées près de chez vous",
+    "cta": "Explorer les événements",
+    "ctaSecondary": "Créer un événement"
+  },
+  "events": {
+    "title": "Événements à venir",
+    "subtitle": "Ne manquez aucun rassemblement automobile",
+    "upcoming": "À venir",
+    "past": "Passés",
+    "featured": "À la une",
+    "allEvents": "Tous les événements",
+    "noEvents": "Aucun événement trouvé",
+    "location": "Lieu",
+    "date": "Date",
+    "participants": "participants",
+    "organizer": "Organisateur",
+    "register": "S'inscrire",
+    "registered": "Inscrit",
+    "createEvent": "Créer un événement",
+    "categories": {
+      "all": "Tous",
+      "meeting": "Rassemblement",
+      "race": "Course",
+      "salon": "Salon",
+      "rally": "Rallye",
+      "auction": "Vente aux enchères"
+    }
+  },
+  "blog": {
+    "title": "Actualités automobiles",
+    "subtitle": "Restez informé des dernières nouvelles du monde automobile",
+    "latestNews": "Dernières actualités",
+    "readMore": "Lire la suite",
+    "publishedOn": "Publié le",
+    "by": "par",
+    "categories": {
+      "all": "Toutes",
+      "news": "Actualités",
+      "reviews": "Essais",
+      "technology": "Technologie",
+      "motorsport": "Sport auto"
+    }
+  },
+  "auth": {
+    "loginTitle": "Connexion",
+    "registerTitle": "Créer un compte",
+    "email": "Adresse email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "loginButton": "Se connecter",
+    "registerButton": "S'inscrire",
+    "orContinueWith": "Ou continuer avec"
+  },
+  "profile": {
+    "title": "Mon profil",
+    "myEvents": "Mes événements",
+    "myVehicles": "Mes véhicules",
+    "settings": "Paramètres",
+    "addVehicle": "Ajouter un véhicule",
+    "noVehicles": "Aucun véhicule enregistré",
+    "noEvents": "Aucun événement",
+    "vehicle": {
+      "brand": "Marque",
+      "model": "Modèle",
+      "year": "Année",
+      "type": "Type"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue",
+    "overview": "Vue d'ensemble",
+    "myEvents": "Mes événements",
+    "manageEvents": "Gérer les événements",
+    "manageUsers": "Gérer les utilisateurs",
+    "manageBlog": "Gérer le blog",
+    "manageAds": "Gérer les publicités",
+    "stats": {
+      "totalEvents": "Événements totaux",
+      "upcomingEvents": "Événements à venir",
+      "totalUsers": "Utilisateurs",
+      "totalViews": "Vues ce mois"
+    }
+  },
+  "ads": {
+    "title": "Régie publicitaire",
+    "createAd": "Créer une publicité",
+    "activeAds": "Publicités actives",
+    "pendingAds": "En attente",
+    "analytics": "Statistiques",
+    "impressions": "Impressions",
+    "clicks": "Clics",
+    "ctr": "Taux de clic"
+  },
+  "footer": {
+    "about": "À propos",
+    "aboutText": "AutoMeet est la plateforme de référence pour découvrir et organiser des événements automobiles en France.",
+    "links": "Liens utiles",
+    "contact": "Contact",
+    "legal": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "copyright": "© 2024 AutoMeet. Tous droits réservés."
+  }
+}
