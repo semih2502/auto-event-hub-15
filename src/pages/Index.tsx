@@ -91,9 +91,9 @@ export default function Index() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden hero-gradient">
-        {/* Background Image */}
+
+      {/* ===== HERO ===== */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden hero-gradient" aria-label="Section Hero">
         <div className="absolute inset-0">
           <img
             src={heroImage}
@@ -134,12 +134,12 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6"
+            aria-label="Statistiques"
           >
             {[
               { icon: Calendar, value: '250+', label: 'Événements' },
@@ -147,10 +147,7 @@ export default function Index() {
               { icon: MapPin, value: '50+', label: 'Villes' },
               { icon: TrendingUp, value: '98%', label: 'Satisfaction' },
             ].map((stat, index) => (
-              <div
-                key={index}
-                className="glass rounded-xl p-4 text-center md:p-6"
-              >
+              <div key={index} className="glass rounded-xl p-4 text-center md:p-6">
                 <stat.icon className="mx-auto mb-2 h-6 w-6 text-accent" />
                 <div className="font-display text-2xl font-bold text-white md:text-3xl">
                   {stat.value}
@@ -162,11 +159,13 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Ad Banner */}
-      <AdBanner position="header" className="py-6" />
+      {/* ===== AD BANNER ===== */}
+      <section aria-label="Bannière publicitaire">
+        <AdBanner position="header" className="py-6" />
+      </section>
 
-      {/* Featured Events */}
-      <section className="py-16 md:py-24">
+      {/* ===== FEATURED EVENTS ===== */}
+      <section className="py-16 md:py-24" aria-label="Événements en vedette">
         <div className="container">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
@@ -196,8 +195,8 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Blog Section */}
-      <section className="bg-secondary/30 py-16 md:py-24">
+      {/* ===== BLOG ===== */}
+      <section className="bg-secondary/30 py-16 md:py-24" aria-label="Blog">
         <div className="container">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
@@ -227,8 +226,8 @@ export default function Index() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24">
+      {/* ===== CTA ===== */}
+      <section className="py-16 md:py-24" aria-label="Call to Action">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -250,7 +249,7 @@ export default function Index() {
                 </Button>
               </Link>
             </div>
-            {/* Decorative elements */}
+
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
             <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
           </motion.div>

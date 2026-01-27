@@ -94,7 +94,8 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
+
+      {/* ===== HEADER ===== */}
       <section className="bg-primary py-16 text-white md:py-24">
         <div className="container">
           <motion.div
@@ -115,39 +116,44 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <div className="container py-8">
+      {/* ===== CONTENT ===== */}
+      <section className="container py-8">
+
         {/* Filters */}
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Search */}
-          <div className="relative max-w-md flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder={t('common.search') + '...'}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+        <section aria-label="Filtres" className="mb-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            {/* Search */}
+            <div className="relative max-w-md flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder={t('common.search') + '...'}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <Button
-                key={cat}
-                variant={selectedCategory === cat ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(cat)}
-              >
-                {t(`blog.categories.${cat}`)}
-              </Button>
-            ))}
+            {/* Category Filters */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <Button
+                  key={cat}
+                  variant={selectedCategory === cat ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {t(`blog.categories.${cat}`)}
+                </Button>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
 
-        {/* Sidebar Ad */}
-        <div className="grid gap-8 lg:grid-cols-4">
-          <div className="lg:col-span-3">
-            {/* Posts Grid */}
+        {/* Main Content */}
+        <section aria-label="Contenu principal" className="grid gap-8 lg:grid-cols-4">
+
+          {/* Posts */}
+          <section className="lg:col-span-3">
             <div className="grid gap-6 md:grid-cols-2">
               {filteredPosts.map((post) => (
                 <BlogCard key={post.id} post={post} />
@@ -155,18 +161,19 @@ export default function BlogPage() {
             </div>
 
             {filteredPosts.length === 0 && (
-              <div className="py-16 text-center">
+              <section className="py-16 text-center">
                 <p className="text-lg text-muted-foreground">Aucun article trouvé</p>
-              </div>
+              </section>
             )}
-          </div>
+          </section>
 
           {/* Sidebar */}
-          <aside className="hidden lg:block">
+          <aside className="hidden lg:block" aria-label="Sidebar publicitaire">
             <AdBanner position="sidebar" />
           </aside>
-        </div>
-      </div>
+
+        </section>
+      </section>
     </div>
   );
 }

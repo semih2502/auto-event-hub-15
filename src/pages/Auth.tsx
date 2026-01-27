@@ -3,13 +3,16 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Car } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/stores';
+
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -35,6 +38,7 @@ export default function AuthPage() {
   const [mode, setMode] = useState<'login' | 'register'>(
     searchParams.get('mode') === 'register' ? 'register' : 'login'
   );
+
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -76,8 +80,8 @@ export default function AuthPage() {
         if (error) {
           toast({
             title: 'Erreur de connexion',
-            description: error.message === 'Invalid login credentials' 
-              ? 'Email ou mot de passe incorrect' 
+            description: error.message === 'Invalid login credentials'
+              ? 'Email ou mot de passe incorrect'
               : error.message,
             variant: 'destructive',
           });
@@ -153,7 +157,6 @@ export default function AuthPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        {/* Logo */}
         <Link to="/" className="mb-8 flex items-center justify-center gap-2 font-display text-2xl font-bold">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
             <Car className="h-6 w-6 text-primary-foreground" />
@@ -167,14 +170,16 @@ export default function AuthPage() {
               {mode === 'login' ? t('auth.loginTitle') : t('auth.registerTitle')}
             </CardTitle>
             <CardDescription>
-              {mode === 'login' 
+              {mode === 'login'
                 ? 'Connectez-vous pour accéder à votre compte'
                 : 'Créez votre compte pour rejoindre la communauté'
               }
             </CardDescription>
           </CardHeader>
+
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+
               {mode === 'register' && (
                 <div className="space-y-2">
                   <Label htmlFor="fullName">Nom complet</Label>
