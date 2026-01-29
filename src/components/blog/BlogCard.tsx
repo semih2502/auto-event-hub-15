@@ -52,6 +52,11 @@ export function BlogCard({ post }: BlogCardProps) {
               src={post.image_url || '/placeholder.svg'}
               alt={post.title}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              onError={(e) => {
+                // If remote image fails to load (404/hotlink blocked), fall back to local placeholder
+                const target = e.currentTarget as HTMLImageElement;
+                if (target.src !== '/placeholder.svg') target.src = '/placeholder.svg';
+              }}
             />
             <Badge
               variant="outline"
@@ -89,7 +94,15 @@ export function BlogCard({ post }: BlogCardProps) {
                   </DialogHeader>
 
                   <div className="mt-4 space-y-4">
-                    <img src={post.image_url || '/placeholder.svg'} alt={post.title} className="w-full rounded-md object-cover" />
+                    <img
+                      src={post.image_url || '/placeholder.svg'}
+                      alt={post.title}
+                      className="w-full rounded-md object-cover"
+                      onError={(e) => {
+                        const target = e.currentTarget as HTMLImageElement;
+                        if (target.src !== '/placeholder.svg') target.src = '/placeholder.svg';
+                      }}
+                    />
                     <div className="prose max-w-full">
                       {/* content may contain HTML/markdown in future; currently plain text */}
                       <p>{post.content}</p>

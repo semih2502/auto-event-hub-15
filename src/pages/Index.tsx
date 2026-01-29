@@ -78,7 +78,7 @@ const mockPosts: BlogPost[] = [
     title: 'Essai: Porsche 911 GT3 RS - La perfection sur circuit',
     excerpt: 'Nous avons pu tester la nouvelle 911 GT3 RS sur le circuit de Spa-Francorchamps. Voici notre verdict complet.',
     content: '',
-    image_url: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f373e?w=800&auto=format',
+    image_url: 'https://tse4.mm.bing.net/th/id/OIP.PlY-rCGfkG83kF29bNvUKAHaEK?pid=Api&P=0&h=180',
     category: 'reviews',
     author_name: 'Marie Martin',
     created_at: '2024-02-25',
@@ -127,7 +127,7 @@ export default function Index() {
                 </Button>
               </Link>
               <Link to="/events/create">
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 text-base">
+                <Button size="lg" className="bg-white text-black border-black hover:bg-white/90 text-base">
                   {t('hero.ctaSecondary')}
                 </Button>
               </Link>
