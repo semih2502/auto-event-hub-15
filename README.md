@@ -4,70 +4,185 @@
 
 **URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
-## How can I edit this code?
+## AutoMeet — auto-event-hub-15
 
-There are several ways of editing your application.
+README complet en français pour le projet AutoMeet (React + Vite). Ce fichier explique comment installer, lancer, tester et comprendre l'architecture. Il contient aussi une section dédiée aux différences majeures entre React et Vue, puisque ton professeur connaît Vue.js.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Aperçu du projet
 
-Changes made via Lovable will be committed automatically to this repo.
+AutoMeet est une application front-end React pour publier et consulter des événements automobiles. Le projet utilise :
 
-**Use your preferred IDE**
+- Vite (bundler/dev server)
+- React (avec TypeScript)
+- Tailwind CSS (+ shadcn/ui)
+- Supabase (intégration optionnelle)
+- Zustand pour le state local
+- React Router pour la navigation
+- Vitest pour les tests
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Le code principal se trouve dans `src/` (pages, components, stores, i18n, etc.).
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## Prérequis
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone https://github.com/semih2502/auto-event-hub-15.git
+- Node.js (recommandé >= 18)
+- npm (ou pnpm/yarn)
+- Une connexion internet pour les dépendances
 
-# Step 2: Navigate to the project directory.
+Commandes PowerShell (Windows) pour démarrer rapidement :
+
+```powershell
+# cloner le dépôt (si besoin)
+git clone https://github.com/semih2502/auto-event-hub-15
 cd auto-event-hub-15
 
-# Step 3: Install the necessary dependencies.
-npm i
+# installer les dépendances
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# lancer en mode développement
 npm run dev
+
+# builder pour la production
+npm run build
+
+# exécuter les tests
+npm run test
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts utiles (extraits de package.json)
 
-**Use GitHub Codespaces**
+- `npm run dev` — démarre Vite en développement
+- `npm run build` — build de production
+- `npm run preview` — prévisualise le build localement
+- `npm run lint` — lance ESLint
+- `npm run test` — lance Vitest
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## Architecture / Fichiers clés
 
-This project is built with:
+- `src/main.tsx` — point d'entrée
+- `src/App.tsx` — routes et layout principaux
+- `src/pages/` — pages (Index, Events, Blog, Profile, Auth...)
+- `src/components/` — composants réutilisables
+	- `src/components/ui/` — composants UI (Button, Card, Dialog...) fournis par shadcn style
+- `src/stores/` — état global/local (Zustand)
+- `src/i18n/` — internationalisation (react-i18next)
+- `public/` — assets statiques (`placeholder.svg`, favicon...)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## Composants importants
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- `Button` (`src/components/ui/button.tsx`) — composant bouton stylé avec class-variance-authority. Note : le composant concatène désormais correctement la `className` passée en prop afin que les classes personnalisées (ex. `text-white`) soient appliquées.
+- `BlogCard` (`src/components/blog/BlogCard.tsx`) — carte d'article qui affiche une image (fallback vers `/placeholder.svg` si l'image distante échoue).
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## Débogage rapide
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Image absente : certaines images externes (Unsplash) peuvent 404 ou être bloquées. On a ajouté un `onError` sur les `<img>` pour utiliser `public/placeholder.svg` en fallback.
+- Boutons sans styles : si les classes personnalisées ne s'appliquent pas, vérifie que le composant `Button` concatène bien `className` (correction déjà appliquée dans ce repo).
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Conseils : ouvre la console navigateur (Network) pour vérifier les 404/CORS, et inspecte le DOM pour voir quelles classes sont appliquées.
+
+---
+
+## Tests
+
+Le projet utilise Vitest. Le dossier `src/test/` contient des tests d'exemple. Pour lancer les tests :
+
+```powershell
+npm run test
+```
+
+---
+
+## Déploiement
+
+- `npm run build` -> dossier `dist/` prêt pour le déploiement
+- Déployer sur Vercel / Netlify / tout service static hosting en pointant sur `dist/` et en utilisant `npm run build` comme commande de build.
+
+---
+
+## React vs Vue — explication ciblée pour un professeur Vue.js
+
+Ci‑dessous un comparatif clair pour expliquer les différences de philosophie et d'API entre React (utilisé ici) et Vue (connu du professeur) :
+
+1) Template / JSX
+- Vue : templates déclaratifs dans `.vue` (séparation `<template>`, `<script>`, `<style>`). Directives (`v-if`, `v-for`, `v-model`) rendent certaines tâches très concises.
+- React : JSX dans les composants `.tsx`. Le JSX est du JavaScript — plus flexible pour manipuler directement des valeurs JS et des comportements.
+
+2) Réactivité
+- Vue : `reactive`, `ref` et système de tracking automatique. Les computed properties sont faciles et performantes.
+- React : hooks (`useState`, `useReducer`) avec updates via setters. `useEffect` pour side effects. La déclaration des dépendances est explicite.
+
+3) Composition
+- Vue Composition API ≈ React Hooks. En React on crée des hooks personnalisés (`useMyFeature`) qui encapsulent logique et effets.
+
+4) Cycle de vie
+- Vue : `mounted`, `beforeUnmount`, `watch`, etc.
+- React : `useEffect(() => { /* mount/update */ return () => { /* unmount */ } }, [deps])`.
+
+5) État global
+- Vue : Pinia / Vuex
+- React : Redux, Zustand (utilisé ici), Context API
+
+6) Directives vs props/handlers
+- Vue a des directives (p.ex. `v-model`) très pratiques. En React on utilise `value` + `onChange` ou hooks pour obtenir le même comportement.
+
+7) Slots vs children
+- Vue slots nommés et scoped slots → React utilise `children` et props de rendu (render props). Les deux permettent composition mais avec des idiomes différents.
+
+Mapping rapide (exemples) :
+
+- Vue `data` / `computed` → React `useState` / `useMemo`
+- Vue `watch` → React `useEffect` (sur dépendances)
+- Vue `v-model` → React `value` + `onChange` (ou hook custom)
+
+Si le professeur demande une réimplémentation en Vue, on peut montrer côte‑à‑côte :
+
+Vue (v-model):
+```vue
+<template>
+	<input v-model="value" />
+</template>
+<script setup>
+import { ref } from 'vue'
+const value = ref('')
+</script>
+```
+
+React équivalent:
+```tsx
+const [value, setValue] = useState('')
+return <input value={value} onChange={e => setValue(e.target.value)} />
+```
+
+---
+
+## Contribution
+
+- Fork -> branche feature -> PR vers `main`.
+- Respecte TypeScript et Tailwind conventions.
+
+---
+
+## Questions / Suivants possibles
+
+Je peux :
+
+- Ajouter un `CONTRIBUTING.md` avec des règles de code et PR template.
+- Ajouter des tests supplémentaires pour les composants (Button, BlogCard).
+- Fournir une version courte du README en anglais si nécessaire.
+
+Si tu veux que j'ajoute une section spécifique (par ex. comment migrer un composant Vue en React), dis‑le et je l'ajoute.
+
+---
+
+© Projet AutoMeet
