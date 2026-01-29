@@ -111,10 +111,8 @@ export function EventCard({ event, featured = false }: EventCardProps) {
               </div>
 
               <DialogFooter>
-                <Link to={`/events/${event.id}`}>
-                </Link>
                 <DialogClose asChild>
-                  <Button variant="ghost">{t('common.close') || 'Fermer'}</Button>
+                  <Button variant="ghost">{t('Fermer')}</Button>
                 </DialogClose>
               </DialogFooter>
             </DialogContent>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Search, Filter, Calendar, MapPin } from 'lucide-react';
@@ -9,6 +9,7 @@ import { EventCard } from '@/components/events';
 import { AdBanner } from '@/components/ads';
 import type { CarEvent, EventCategory } from '@/stores';
 import { mockEvents } from '@/data/CarEvent';
+import { useEventsStore } from '@/stores/eventsStore';
 
 const categories: (EventCategory | 'all')[] = ['all', 'meeting', 'race', 'salon', 'rally', 'auction'];
 
@@ -18,7 +19,15 @@ export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredEvents = mockEvents.filter((event) => {
+  const events = useEventsStore((s) => s.events);
+  const setEvents = useEventsStore((s) => s.setEvents);
+
+  // Seed store with mockEvents on first mount if empty
+  useEffect(() => {
+    if (!events || events.length === 0) setEvents(mockEvents);
+  }, []);
+
+  const filteredEvents = events.filter((event) => {
     const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location.toLowerCase().includes(searchQuery.toLowerCase());

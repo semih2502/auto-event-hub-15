@@ -109,7 +109,6 @@
     }
   },
   "ads": {
-    "title": "Régie publicitaire",
     "createAd": "Créer une publicité",
     "activeAds": "Publicités actives",
     "pendingAds": "En attente",

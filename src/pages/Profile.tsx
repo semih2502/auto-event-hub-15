@@ -47,7 +47,14 @@ export default function ProfilePage() {
   }, [viewedId, role]);
   const [vehicles, setVehicles] = useState(initialVehicles);
 
-  const initials = (viewedProfile?.full_name || profile?.full_name)
+  const viewedFullName = viewedProfile
+    ? (viewedProfile.first_name ? `${viewedProfile.first_name} ${viewedProfile.last_name ?? ''}` : viewedProfile.full_name)
+    : null;
+  const profileFullName = profile
+    ? (profile.first_name ? `${profile.first_name} ${profile.last_name ?? ''}` : profile.full_name)
+    : null;
+
+  const initials = (viewedFullName || profileFullName)
     ?.split(' ')
     .map((n) => n[0])
     .join('')
@@ -65,18 +72,16 @@ export default function ProfilePage() {
             <Card className="bg-primary text-white">
               <CardContent className="p-8">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <h1 className="font-display text-3xl font-bold">
-                      {t('profile.heroTitle')}
-                    </h1>
-                    <p className="text-white/80">
-                      {t('profile.heroSubtitle')}
-                    </p>
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <h1 className="font-display text-2xl font-bold">
+                        {viewedFullName || profileFullName || 'Utilisateur'}
+                      </h1>
+                      <p className="text-muted-foreground">
+                        {viewedProfile?.email || user?.email}
+                      </p>
+                    </div>
                   </div>
-
-                  <Button className="btn-accent">
-                    {t('profile.heroButton')}
-                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -93,7 +98,7 @@ export default function ProfilePage() {
                 <div className="flex flex-col items-center gap-6 md:flex-row">
                   <div className="relative">
                     <Avatar className="h-24 w-24">
-                      <AvatarImage src={viewedProfile?.avatar_url || profile?.avatar_url || ''} alt={(viewedProfile?.full_name || profile?.full_name) || ''} />
+                        <AvatarImage src={viewedProfile?.avatar_url || profile?.avatar_url || ''} alt={(viewedFullName || profileFullName) || ''} />
                       <AvatarFallback className="bg-primary text-2xl text-primary-foreground">
                         {initials}
                       </AvatarFallback>
@@ -106,11 +111,11 @@ export default function ProfilePage() {
 
                   <div className="flex-1 text-center md:text-left">
                     <h1 className="font-display text-2xl font-bold">
-                      {profile?.full_name || 'Utilisateur'}
+                      {profileFullName || 'Utilisateur'}
                     </h1>
                     <div className="mt-1 flex items-center justify-center md:justify-start gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || user?.email || 'Utilisateur'} />
+                        <AvatarImage src={profile?.avatar_url || ''} alt={profileFullName || user?.email || 'Utilisateur'} />
                         <AvatarFallback className="bg-primary text-sm text-primary-foreground">
                           {initials}
                         </AvatarFallback>
@@ -260,29 +265,6 @@ export default function ProfilePage() {
             </Tabs>
           </motion.div>
         </section>
-
-        {/* ========================= */}
-        {/*        CTA SECTION        */}
-        {/* ========================= */}
-        <section>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Card className="bg-primary text-white">
-              <CardContent className="p-8">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <h1 className="font-display text-2xl font-bold">
-                      {viewedProfile?.full_name || profile?.full_name || 'Utilisateur'}
-                    </h1>
-                    <p className="text-muted-foreground">
-                      {viewedProfile?.email || user?.email} {t('profile.ctaSubtitle')}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </section>
-
       </div>
     </div>
   );

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores';
+import { supabase } from '@/integrations/supabase/client';
 
-// Composable hook to manage a "viewed" profile as a local copy.
-// - If initialProfile is provided, it will be used as the starting point.
-// - Otherwise it reads the profile from the auth store.
-// - Exposes viewedProfile, setField, reset, save and loadById (placeholder without backend).
 
 export default function useViewedProfile(initialProfile = null) {
   const storeProfile = useAuthStore((s) => s.profile);
@@ -14,7 +11,6 @@ export default function useViewedProfile(initialProfile = null) {
   const [isDirty, setIsDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // keep in sync when store profile changes and no explicit initialProfile was provided
   useEffect(() => {
     if (!initialProfile) setViewedProfile(storeProfile);
   }, [storeProfile, initialProfile]);
@@ -32,15 +28,24 @@ export default function useViewedProfile(initialProfile = null) {
   }
 
   async function save() {
-    // Save to store. If the viewed profile corresponds to current user, update store.
     setIsLoading(true);
     try {
       if (storeProfile && viewedProfile && storeProfile.id === viewedProfile.id) {
+        // updating own profile: update store
         setProfileInStore(viewedProfile);
       } else {
-        // For now we don't have a users backend here; in a real app you should
-        // call an API (Supabase) to update other users' profiles.
-        console.warn('Saving viewedProfile: no backend integration implemented.');
+        // updating another user's profile: try Supabase if available
+        if (typeof supabase !== 'undefined' && import.meta.env.VITE_SUPABASE_URL) {
+          const { data, error } = await (supabase as any).from('profiles').upsert(viewedProfile).select().single();
+          if (error) {
+            console.error('Supabase save error', error);
+            throw error;
+          }
+          // reflect saved data locally
+          setViewedProfile(data as any);
+        } else {
+          console.warn('Saving viewedProfile: no backend configured, skipping remote save.');
+        }
       }
       setIsLoading(false);
       setIsDirty(false);
@@ -54,11 +59,26 @@ export default function useViewedProfile(initialProfile = null) {
 
   async function loadById(id: string) {
     setIsLoading(true);
-    // Since there is no users backend in the project, we simulate loading.
-    // Replace this with a real API call to fetch a user's profile by id.
-    await new Promise((r) => setTimeout(r, 200));
-    setViewedProfile((p) => ({ id, full_name: 'Utilisateur ' + id, email: '', avatar_url: null }));
-    setIsLoading(false);
+    try {
+      if (typeof supabase !== 'undefined' && import.meta.env.VITE_SUPABASE_URL) {
+  const { data, error } = await (supabase as any).from('profiles').select('*').eq('id', id).single();
+        if (error) {
+          console.warn('Supabase fetch profile error', error);
+          setViewedProfile({ id, full_name: 'Utilisateur ' + id, email: '', avatar_url: null });
+        } else {
+          setViewedProfile(data as any);
+        }
+      } else {
+        // simulate network latency
+        await new Promise((r) => setTimeout(r, 200));
+        setViewedProfile({ id, full_name: 'Utilisateur ' + id, email: '', avatar_url: null });
+      }
+    } catch (err) {
+      console.error(err);
+      setViewedProfile({ id, full_name: 'Utilisateur ' + id, email: '', avatar_url: null });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return {

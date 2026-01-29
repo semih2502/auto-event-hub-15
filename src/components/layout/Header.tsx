@@ -77,13 +77,11 @@ export function Header() {
 
                 <div className="hidden items-center gap-2 md:flex">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || user?.email || 'Utilisateur'} />
+                    <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || 'Utilisateur'} />
                     <AvatarFallback className="bg-primary text-sm text-primary-foreground">
                       {initials}
                     </AvatarFallback>
                   </Avatar>
-
-                  <span className="text-sm text-muted-foreground">{user?.email}</span>
                 </div>
               </Link>
               <Button variant="ghost" size="icon" onClick={logout}>

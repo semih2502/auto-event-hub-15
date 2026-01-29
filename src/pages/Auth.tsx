@@ -21,7 +21,8 @@ const loginSchema = z.object({
 });
 
 const registerSchema = loginSchema.extend({
-  fullName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  firstName: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
+  lastName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Les mots de passe ne correspondent pas',
@@ -40,11 +41,14 @@ export default function AuthPage() {
   );
 
   const [isLoading, setIsLoading] = useState(false);
+  const { setProfile, setUser } = useAuthStore();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -106,13 +110,15 @@ export default function AuthPage() {
 
         const redirectUrl = `${window.location.origin}/`;
 
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
             emailRedirectTo: redirectUrl,
             data: {
-              full_name: formData.fullName,
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              full_name: `${formData.firstName} ${formData.lastName}`,
             },
           },
         });
@@ -136,6 +142,25 @@ export default function AuthPage() {
             title: 'Inscription réussie',
             description: 'Votre compte a été créé avec succès !',
           });
+          // If Supabase returned a user immediately, store basic profile locally so UI updates.
+          try {
+            const sessionRes = await supabase.auth.getSession();
+            const user = sessionRes.data.session?.user ?? data?.user ?? null;
+            if (user) {
+              setUser(user);
+              setProfile({
+                id: (user as any).id,
+                email: user.email ?? formData.email,
+                full_name: `${formData.firstName} ${formData.lastName}`,
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                avatar_url: null,
+              } as any);
+            }
+          } catch (err) {
+            // ignore; UI will refresh on next auth change
+          }
+
           navigate('/dashboard');
         }
       }
@@ -181,19 +206,36 @@ export default function AuthPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
 
               {mode === 'register' && (
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Nom complet</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="fullName"
-                      placeholder="Jean Dupont"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="pl-10"
-                    />
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">Prénom</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id="firstName"
+                        placeholder="Jean"
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                        className="pl-10"
+                      />
+                    </div>
+                    {errors.firstName && <p className="text-sm text-destructive">{errors.firstName}</p>}
                   </div>
-                  {errors.fullName && <p className="text-sm text-destructive">{errors.fullName}</p>}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Nom</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id="lastName"
+                        placeholder="Dupont"
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                        className="pl-10"
+                      />
+                    </div>
+                    {errors.lastName && <p className="text-sm text-destructive">{errors.lastName}</p>}
+                  </div>
                 </div>
               )}
 
@@ -247,7 +289,11 @@ export default function AuthPage() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full btn-accent" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full btn-accent"
+                disabled={isLoading || (mode === 'register' && (!formData.firstName.trim() || !formData.lastName.trim()))}
+              >
                 {isLoading ? t('common.loading') : (
                   <>
                     {mode === 'login' ? t('auth.loginButton') : t('auth.registerButton')}

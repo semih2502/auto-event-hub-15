@@ -48,7 +48,9 @@ export default function DashboardPage() {
                 <h1 className="font-display text-3xl font-bold flex items-center gap-3">
                   <span>{t('dashboard.welcome')},</span>
                   <Link to="/profile" className="inline-flex items-center gap-3">
-                    <span className="break-words">{user?.email || profile?.full_name || 'Utilisateur'}</span>
+                    <span className="break-words">{
+                      profile?.first_name || profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'Utilisateur'
+                    }</span>
                   </Link>
                 </h1>
                 <p className="text-muted-foreground">
@@ -178,11 +180,6 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </div>
-                  <Link to="/dashboard/ads">
-                    <Button variant="outline" className="mt-4 w-full">
-                      {t('ads.title')}
-                    </Button>
-                  </Link>
                 </CardContent>
               </Card>
             </motion.div>

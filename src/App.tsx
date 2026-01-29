@@ -9,6 +9,7 @@ import { useAuthStore } from "@/stores";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Events from "./pages/Events";
+import CreateEvent from "./pages/CreateEvent";
 import Blog from "./pages/Blog";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
@@ -52,6 +53,7 @@ const App = () => (
             <Route element={<MainLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/events/create" element={<CreateEvent />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profile" element={<Profile />} />
