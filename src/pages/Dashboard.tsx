@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Calendar,
   Users,
+  User,
   Eye,
   TrendingUp,
   Plus,
@@ -33,7 +34,7 @@ const quickActions = [
 
 export default function DashboardPage() {
   const { t } = useTranslation();
-  const { profile, role } = useAuthStore();
+  const { profile, role, user } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-secondary/20 py-8">
@@ -44,8 +45,11 @@ export default function DashboardPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <h1 className="font-display text-3xl font-bold">
-                  {t('dashboard.welcome')}, {profile?.full_name || 'Utilisateur'} 👋
+                <h1 className="font-display text-3xl font-bold flex items-center gap-3">
+                  <span>{t('dashboard.welcome')},</span>
+                  <Link to="/profile" className="inline-flex items-center gap-3">
+                    <span className="break-words">{user?.email || profile?.full_name || 'Utilisateur'}</span>
+                  </Link>
                 </h1>
                 <p className="text-muted-foreground">
                   Voici un aperçu de votre activité sur AutoMeet

@@ -39,6 +39,8 @@ export default function AddVehicleModal({ onAdd }) {
         setType('');
     };
 
+    const isFormValid = Boolean(brand.trim() && model.trim() && year.toString().trim() && type.trim() && !Number.isNaN(Number(year)));
+
     return (
     <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -84,7 +86,7 @@ export default function AddVehicleModal({ onAdd }) {
                     <DialogClose asChild>
                         <Button variant="outline">{t('common.cancel') || 'Annuler'}</Button>
                     </DialogClose>
-                    <Button type="submit" form="add-vehicle-form">
+                    <Button type="submit" form="add-vehicle-form" disabled={!isFormValid}>
                         {t('common.confirm') || 'Ajouter'}
                     </Button>
                 </DialogFooter>

@@ -6,6 +6,7 @@ import { Menu, X, Car, User, LogOut } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -18,7 +19,13 @@ export function Header() {
   const { t } = useTranslation();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, profile, logout } = useAuthStore();
+  const { isAuthenticated, profile, logout, user } = useAuthStore();
+
+  const initials = profile?.full_name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase() || (user?.email ? user.email.split('@')[0].slice(0, 2).toUpperCase() : 'U');
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -55,7 +62,7 @@ export function Header() {
         {/* Right Side Actions */}
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          
+
           {isAuthenticated ? (
             <div className="hidden items-center gap-2 md:flex">
               <Link to="/dashboard">
@@ -63,10 +70,21 @@ export function Header() {
                   {t('common.dashboard')}
                 </Button>
               </Link>
-              <Link to="/profile">
+              <Link to="/profile" className="flex items-center gap-3">
                 <Button variant="ghost" size="icon">
                   <User className="h-4 w-4" />
                 </Button>
+
+                <div className="hidden items-center gap-2 md:flex">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || user?.email || 'Utilisateur'} />
+                    <AvatarFallback className="bg-primary text-sm text-primary-foreground">
+                      {initials}
+                    </AvatarFallback>
+                  </Avatar>
+
+                  <span className="text-sm text-muted-foreground">{user?.email}</span>
+                </div>
               </Link>
               <Button variant="ghost" size="icon" onClick={logout}>
                 <LogOut className="h-4 w-4" />

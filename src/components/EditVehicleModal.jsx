@@ -42,6 +42,8 @@ export default function EditVehicleModal({ vehicle, onUpdate }) {
     setOpen(false);
   };
 
+  const isFormValid = Boolean(brand.trim() && model.trim() && year.toString().trim() && type.trim() && !Number.isNaN(Number(year)));
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -85,7 +87,7 @@ export default function EditVehicleModal({ vehicle, onUpdate }) {
           <DialogClose asChild>
             <Button variant="outline">{t('common.cancel') || 'Annuler'}</Button>
           </DialogClose>
-          <Button type="submit" form={`edit-vehicle-form-${vehicle?.id || 'new'}`}>
+          <Button type="submit" form={`edit-vehicle-form-${vehicle?.id || 'new'}`} disabled={!isFormValid}>
             {t('common.confirm') || 'Enregistrer'}
           </Button>
         </DialogFooter>

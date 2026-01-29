@@ -9,7 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EditVehicleModal from '@/components/EditVehicleModal';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useAuthStore } from '@/stores';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import useViewedProfile from '@/composables/useViewedProfile';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -29,10 +31,23 @@ const mockUserEvents = [
 
 export default function ProfilePage() {
   const { t } = useTranslation();
-  const { profile, user } = useAuthStore();
+  const { profile, user, role } = useAuthStore();
+  const [searchParams] = useSearchParams();
+  const viewedId = searchParams.get('id');
+
+  // Use composable to manage a local editable copy of the profile being viewed
+  const { viewedProfile, setField, save, reset, loadById, isLoading } = useViewedProfile();
+
+  // If admin is viewing another profile by ?id=..., load it.
+  useEffect(() => {
+    if (viewedId) {
+      if (role !== 'admin') return; // non-admins cannot view others by id
+      loadById(viewedId);
+    }
+  }, [viewedId, role]);
   const [vehicles, setVehicles] = useState(initialVehicles);
 
-  const initials = profile?.full_name
+  const initials = (viewedProfile?.full_name || profile?.full_name)
     ?.split(' ')
     .map((n) => n[0])
     .join('')
@@ -78,7 +93,7 @@ export default function ProfilePage() {
                 <div className="flex flex-col items-center gap-6 md:flex-row">
                   <div className="relative">
                     <Avatar className="h-24 w-24">
-                      <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || ''} />
+                      <AvatarImage src={viewedProfile?.avatar_url || profile?.avatar_url || ''} alt={(viewedProfile?.full_name || profile?.full_name) || ''} />
                       <AvatarFallback className="bg-primary text-2xl text-primary-foreground">
                         {initials}
                       </AvatarFallback>
@@ -93,7 +108,18 @@ export default function ProfilePage() {
                     <h1 className="font-display text-2xl font-bold">
                       {profile?.full_name || 'Utilisateur'}
                     </h1>
-                    <p className="text-muted-foreground">{user?.email}</p>
+                    <div className="mt-1 flex items-center justify-center md:justify-start gap-3">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || user?.email || 'Utilisateur'} />
+                        <AvatarFallback className="bg-primary text-sm text-primary-foreground">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
+
+                      <a href={`mailto:${user?.email}`} className="text-muted-foreground underline" aria-label={`Envoyer un mail à ${user?.email}`}>
+                        {user?.email}
+                      </a>
+                    </div>
 
                     <div className="mt-3 flex flex-wrap justify-center gap-2 md:justify-start">
                       <Badge variant="secondary">
@@ -244,11 +270,11 @@ export default function ProfilePage() {
               <CardContent className="p-8">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div>
-                    <h2 className="font-display text-2xl font-bold">
-                      {t('profile.ctaTitle')}
-                    </h2>
-                    <p className="text-white/80">
-                      {t('profile.ctaSubtitle')}
+                    <h1 className="font-display text-2xl font-bold">
+                      {viewedProfile?.full_name || profile?.full_name || 'Utilisateur'}
+                    </h1>
+                    <p className="text-muted-foreground">
+                      {viewedProfile?.email || user?.email} {t('profile.ctaSubtitle')}
                     </p>
                   </div>
                 </div>

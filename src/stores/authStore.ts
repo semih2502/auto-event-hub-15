@@ -40,17 +40,22 @@ export const useAuthStore = create<AuthState>()(
       setProfile: (profile) => set({ profile }),
       setRole: (role) => set({ role }),
       setIsLoading: (isLoading) => set({ isLoading }),
-      logout: () => set({ 
-        user: null, 
-        session: null, 
-        profile: null, 
+      logout: () => set({
+        user: null,
+        session: null,
+        profile: null,
         role: 'user',
-        isAuthenticated: false 
+        isAuthenticated: false
       }),
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ role: state.role }),
+      partialize: (state) => ({
+        role: state.role,
+        isAuthenticated: state.isAuthenticated,
+        profile: state.profile,
+        user: state.user ? { id: (state.user as any).id, email: (state.user as any).email } : null,
+      }),
     }
   )
 );

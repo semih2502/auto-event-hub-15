@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import type { CarEvent } from '@/stores';
 import { format } from 'date-fns';
@@ -77,11 +78,47 @@ export function EventCard({ event, featured = false }: EventCardProps) {
               <span>{event.current_participants} {t('events.participants')}</span>
             </div>
           </div>
-          <Link to={`/events/${event.id}`}>
-            <Button variant="outline" className="w-full">
-              {t('common.learnMore')}
-            </Button>
-          </Link>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="w-full">
+                {t('common.learnMore')}
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{event.title}</DialogTitle>
+                <DialogDescription>{formattedDate} • {event.location}</DialogDescription>
+              </DialogHeader>
+
+              <div className="mt-4 space-y-4">
+                <img src={event.image_url || '/placeholder.svg'} alt={event.title} className="w-full rounded-md object-cover" />
+                <p className="text-sm text-muted-foreground">{event.description}</p>
+                <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-4 w-4" />
+                    <span>{formattedDate}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-4 w-4" />
+                    <span className="line-clamp-2">{event.location}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4" />
+                    <span>{event.current_participants} {t('events.participants')}</span>
+                  </div>
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Link to={`/events/${event.id}`}>
+                </Link>
+                <DialogClose asChild>
+                  <Button variant="ghost">{t('common.close') || 'Fermer'}</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </CardContent>
       </Card>
     </motion.div>

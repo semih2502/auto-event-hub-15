@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
@@ -44,7 +46,6 @@ export function BlogCard({ post }: BlogCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Link to={`/blog/${post.slug}`}>
         <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg">
           <div className="relative aspect-[16/9] overflow-hidden">
             <img
@@ -73,12 +74,41 @@ export function BlogCard({ post }: BlogCardProps) {
               {post.excerpt}
             </p>
             <div className="flex items-center gap-1 text-sm font-medium text-primary">
-              {t('blog.readMore')}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="flex items-center gap-1 text-sm font-medium text-primary">
+                    {t('blog.readMore')}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{post.title}</DialogTitle>
+                    <DialogDescription>{formattedDate} • {post.author_name}</DialogDescription>
+                  </DialogHeader>
+
+                  <div className="mt-4 space-y-4">
+                    <img src={post.image_url || '/placeholder.svg'} alt={post.title} className="w-full rounded-md object-cover" />
+                    <div className="prose max-w-full">
+                      {/* content may contain HTML/markdown in future; currently plain text */}
+                      <p>{post.content}</p>
+                    </div>
+                  </div>
+
+                  <DialogFooter>
+                    <Link to={`/blog/${post.slug}`}>
+                      <Button>{t('blog.openPost') || t('common.open') || 'Lire l\'article'}</Button>
+                    </Link>
+                    <DialogClose asChild>
+                      <Button variant="ghost">{t('common.close') || 'Fermer'}</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardContent>
         </Card>
-      </Link>
     </motion.div>
   );
 }
